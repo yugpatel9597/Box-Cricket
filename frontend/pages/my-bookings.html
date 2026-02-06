@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="View upcoming and past bookings. Cancel bookings and check payment status." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>My Bookings | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">My Bookings</h1>
+          <p class="mt-2 text-sm text-white/60">Upcoming matches, past bookings, cancellations, and payment status.</p>
+        </div>
+
+        <a
+          href="/grounds.html"
+          class="inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2"
+        >
+          Book New Slot
+        </a>
+      </div>
+
+      <div id="auth-warning" class="mt-6 hidden rounded-2xl border border-sand/30 bg-sand/10 p-6">
+        <p class="text-sm font-semibold">Login required</p>
+        <p class="mt-2 text-sm text-white/70">Please login to view your bookings.</p>
+        <a
+          id="login-link"
+          href="/login.html"
+          class="mt-4 inline-flex items-center justify-center rounded-xl bg-sand px-5 py-3 text-sm font-semibold text-black hover:opacity-90"
+        >
+          Go to Login
+        </a>
+      </div>
+
+      <div id="bookings-error" class="mt-6 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+
+      <div id="bookings-view" class="mt-8 hidden">
+        <div class="grid gap-6 lg:grid-cols-2">
+          <section class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <h2 class="text-lg font-semibold">Upcoming</h2>
+            <p class="mt-2 text-sm text-white/60">Bookings that haven’t started yet.</p>
+            <div id="upcoming-list" class="mt-5 grid gap-4"></div>
+          </section>
+
+          <section class="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <h2 class="text-lg font-semibold">Past</h2>
+            <p class="mt-2 text-sm text-white/60">Completed or cancelled bookings.</p>
+            <div id="past-list" class="mt-5 grid gap-4"></div>
+          </section>
+        </div>
+
+        <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 class="text-sm font-semibold">Refund & cancellation note</h3>
+          <p class="mt-2 text-sm text-white/60">
+            Refunds (if applicable) are processed within 5–7 business days after cancellation, as per our
+            <a class="text-turf2 hover:text-turf" href="/policies/refund.html">Refund Policy</a>.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/my-bookings.page.js"></script>
+  </body>
+</html>

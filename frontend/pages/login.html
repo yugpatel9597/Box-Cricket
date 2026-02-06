@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Login to manage your bookings, cancellations, and payments." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Login | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-6xl px-4 py-12">
+      <div class="mx-auto grid max-w-4xl items-center gap-10 lg:grid-cols-2">
+        <div class="hidden lg:block">
+          <h1 class="text-4xl font-bold tracking-tight">Welcome back</h1>
+          <p class="mt-4 text-sm text-white/60">
+            Login to view your bookings, cancel slots, and complete Razorpay payments securely.
+          </p>
+
+          <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+            <p class="text-sm font-semibold">Need an account?</p>
+            <p class="mt-2 text-sm text-white/60">Register in under a minute and book your next match.</p>
+            <a
+              href="/register.html"
+              class="mt-4 inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2"
+            >
+              Create Account
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-glow">
+          <h1 class="text-2xl font-bold lg:hidden">Login</h1>
+          <p class="mt-2 text-sm text-white/60">Use your email and password.</p>
+
+          <div id="login-error" class="mt-6 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+
+          <form id="login-form" class="mt-6 grid gap-4">
+            <div>
+              <label class="text-xs text-white/60" for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+                class="mt-1 w-full rounded-xl border border-white/10 bg-pitch2/60 px-4 py-3 text-sm outline-none focus:border-turf/60"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs text-white/60" for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+                placeholder="••••••••"
+                class="mt-1 w-full rounded-xl border border-white/10 bg-pitch2/60 px-4 py-3 text-sm outline-none focus:border-turf/60"
+              />
+            </div>
+
+            <button
+              id="login-btn"
+              type="submit"
+              class="mt-2 inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Login
+            </button>
+
+            <p class="text-xs text-white/50">
+              By logging in, you agree to our
+              <a class="text-turf2 hover:text-turf" href="/policies/terms.html">Terms</a>
+              and
+              <a class="text-turf2 hover:text-turf" href="/policies/privacy.html">Privacy Policy</a>.
+            </p>
+
+            <p class="text-sm text-white/70 lg:hidden">
+              Don’t have an account?
+              <a class="text-turf2 hover:text-turf" href="/register.html">Register</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/login.page.js"></script>
+  </body>
+</html>

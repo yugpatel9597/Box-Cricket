@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Terms and Conditions for BoxCricket bookings." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Terms & Conditions | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-4xl px-4 py-12">
+      <h1 class="text-3xl font-bold tracking-tight">Terms & Conditions</h1>
+      <p class="mt-2 text-sm text-white/60">Last updated: <span id="tc-date"></span></p>
+
+      <div class="mt-8 space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8">
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">1. Booking rules</h2>
+          <p class="text-sm text-white/70">
+            Slot bookings are time-bound. Please arrive on time. Late arrival may reduce your play time. Bookings are
+            confirmed after successful online payment verification.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">2. Ground usage rules</h2>
+          <p class="text-sm text-white/70">
+            Users must follow ground safety guidelines, maintain cleanliness, and use appropriate sports footwear.
+            Damages to property or equipment may result in penalties.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">3. User responsibilities</h2>
+          <p class="text-sm text-white/70">
+            You are responsible for maintaining the confidentiality of your account. Any activity under your account is
+            assumed to be performed by you.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">4. Payments</h2>
+          <p class="text-sm text-white/70">
+            Online payments are processed via Razorpay. Your booking is confirmed once the payment is completed and
+            verified by our server.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">5. Cancellations</h2>
+          <p class="text-sm text-white/70">
+            Cancellation rules and refund timelines are described in our
+            <a class="text-turf2 hover:text-turf" href="/policies/refund.html">Refund & Cancellation Policy</a>.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">6. Changes to terms</h2>
+          <p class="text-sm text-white/70">
+            We may update these terms occasionally. Continued usage of the platform implies acceptance of the updated
+            terms.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      document.getElementById('tc-date').textContent = new Date().toISOString().slice(0, 10);
+    </script>
+  </body>
+</html>

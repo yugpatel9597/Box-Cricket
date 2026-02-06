@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Payment successful. Your box cricket booking has been confirmed." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Payment Success | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-3xl px-4 py-14">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-glow">
+        <div class="flex items-start gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-turf/15 text-turf">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold">Payment Successful</h1>
+            <p class="mt-2 text-sm text-white/60">Your booking is confirmed. See details below.</p>
+          </div>
+        </div>
+
+        <div id="success-details" class="mt-6 grid gap-3"></div>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <a
+            href="/my-bookings.html"
+            class="inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2"
+          >
+            View My Bookings
+          </a>
+          <a
+            href="/grounds.html"
+            class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
+          >
+            Book Another Slot
+          </a>
+        </div>
+
+        <p class="mt-6 text-xs text-white/50">
+          Need help? Visit <a class="text-turf2 hover:text-turf" href="/contact.html">Contact Us</a>.
+        </p>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/payment-success.page.js"></script>
+  </body>
+</html>

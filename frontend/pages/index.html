@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Book box cricket grounds, choose time slots, and pay securely via Razorpay. Fast booking, mobile-first experience."
+    />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <meta property="og:title" content="BoxCricket — Book Box Cricket Grounds" />
+    <meta
+      property="og:description"
+      content="View grounds, select slots, book instantly, and pay securely via Razorpay."
+    />
+    <meta property="og:type" content="website" />
+
+    <title>BoxCricket | Book Grounds & Slots</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main>
+      <section class="relative overflow-hidden">
+        <div
+          class="absolute inset-0 bg-[radial-gradient(900px_circle_at_15%_20%,rgba(34,197,94,0.25),transparent_60%),radial-gradient(700px_circle_at_85%_30%,rgba(251,191,36,0.12),transparent_55%)]"
+        ></div>
+
+        <div class="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
+          <div class="grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-white/80">
+                <span class="h-2 w-2 rounded-full bg-turf"></span>
+                Fast booking · Secure Razorpay payments
+              </p>
+
+              <h1 class="mt-5 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+                Book your box cricket slot.
+                <span class="text-turf2">Play under lights.</span>
+              </h1>
+              <p class="mt-4 max-w-xl text-base text-white/70">
+                Discover premium turf grounds, check availability in real-time, reserve your slot, and pay online using
+                Razorpay — all from your phone.
+              </p>
+
+              <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/grounds.html"
+                  class="inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black shadow-glow hover:bg-turf2"
+                >
+                  Book Now
+                </a>
+                <a
+                  href="/grounds.html"
+                  class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
+                >
+                  View Grounds
+                </a>
+              </div>
+
+              <div class="mt-8 grid grid-cols-3 gap-3">
+                <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p class="text-sm font-semibold">Instant booking</p>
+                  <p class="mt-1 text-xs text-white/60">Reserve slots in seconds</p>
+                </div>
+                <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p class="text-sm font-semibold">Secure checkout</p>
+                  <p class="mt-1 text-xs text-white/60">Razorpay-ready flow</p>
+                </div>
+                <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p class="text-sm font-semibold">Easy cancellations</p>
+                  <p class="mt-1 text-xs text-white/60">Clear refund timeline</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <div class="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6 shadow-glow">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-xs text-white/60">Today’s pick</p>
+                    <p class="text-lg font-semibold">Top grounds near you</p>
+                  </div>
+                  <a class="text-sm font-semibold text-turf2 hover:text-turf" href="/grounds.html">Explore</a>
+                </div>
+
+                <div id="ground-highlights" class="mt-5 grid gap-4"></div>
+
+                <div id="home-error" class="mt-4 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+              </div>
+
+              <div
+                class="pointer-events-none absolute -bottom-10 -right-10 h-48 w-48 rounded-full bg-turf/20 blur-3xl"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-14">
+        <div class="grid gap-6 rounded-2xl border border-white/10 bg-white/5 p-6 md:grid-cols-3">
+          <div>
+            <h2 class="text-xl font-bold">How it works</h2>
+            <p class="mt-2 text-sm text-white/60">A clean booking flow designed for mobile.</p>
+          </div>
+
+          <div class="rounded-xl border border-white/10 bg-pitch2/70 p-5">
+            <p class="text-sm font-semibold">1. Choose a ground</p>
+            <p class="mt-2 text-sm text-white/60">Compare price, amenities, and availability.</p>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-pitch2/70 p-5">
+            <p class="text-sm font-semibold">2. Pick a slot</p>
+            <p class="mt-2 text-sm text-white/60">Select date and time — see booked vs free slots.</p>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-pitch2/70 p-5">
+            <p class="text-sm font-semibold">3. Pay & play</p>
+            <p class="mt-2 text-sm text-white/60">Pay securely via Razorpay and get confirmation.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16">
+        <div class="rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 to-white/5 p-8">
+          <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div>
+              <h2 class="text-2xl font-bold">Ready to play?</h2>
+              <p class="mt-2 text-sm text-white/60">Find your turf, book your slot, and hit sixes.</p>
+            </div>
+            <a
+              href="/grounds.html"
+              class="inline-flex items-center justify-center rounded-xl bg-turf px-6 py-3 text-sm font-semibold text-black shadow-glow hover:bg-turf2"
+            >
+              Book a Slot
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/home.page.js"></script>
+  </body>
+</html>

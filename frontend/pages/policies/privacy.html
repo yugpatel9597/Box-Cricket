@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Privacy Policy for BoxCricket bookings and Razorpay payments." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Privacy Policy | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-4xl px-4 py-12">
+      <h1 class="text-3xl font-bold tracking-tight">Privacy Policy</h1>
+      <p class="mt-2 text-sm text-white/60">Last updated: <span id="pp-date"></span></p>
+
+      <div class="mt-8 space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8">
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">1. Information we collect</h2>
+          <p class="text-sm text-white/70">
+            We may collect personal information such as your name, email address, phone number, and booking details
+            (ground, date, time slot).
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">2. How we use your information</h2>
+          <p class="text-sm text-white/70">
+            We use your information to create and manage bookings, send booking confirmations, provide customer support,
+            and prevent fraud or misuse of the platform.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">3. Payment data handling</h2>
+          <p class="text-sm text-white/70">
+            Payments are processed by Razorpay, our payment gateway partner. We do not store your card or bank details on
+            our servers. Razorpay handles payment details securely as per their compliance standards.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">4. Razorpay as payment gateway</h2>
+          <p class="text-sm text-white/70">
+            When you choose to pay online, you may be redirected to Razorpay Checkout. Payment confirmation is recorded
+            after server-side verification of the Razorpay payment signature.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">5. Data retention</h2>
+          <p class="text-sm text-white/70">
+            We retain booking and payment references for operational, legal, and audit purposes. You may request deletion
+            of your account data where applicable.
+          </p>
+        </section>
+
+        <section class="space-y-2">
+          <h2 class="text-lg font-semibold">6. Contact</h2>
+          <p class="text-sm text-white/70">
+            If you have any questions about this Privacy Policy, please contact us via the details on the
+            <a class="text-turf2 hover:text-turf" href="/contact.html">Contact Us</a> page.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script>
+      document.getElementById('pp-date').textContent = new Date().toISOString().slice(0, 10);
+    </script>
+  </body>
+</html>

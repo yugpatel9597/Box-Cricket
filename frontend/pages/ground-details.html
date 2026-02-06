@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="View ground images, amenities, and choose date & time slots. Create a booking and pay via Razorpay."
+    />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Ground Details | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div id="ground-error" class="hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+
+      <div id="ground-skeleton" class="animate-pulse">
+        <div class="h-10 w-3/4 rounded-lg bg-white/5"></div>
+        <div class="mt-3 h-5 w-2/4 rounded-lg bg-white/5"></div>
+        <div class="mt-8 grid gap-6 lg:grid-cols-3">
+          <div class="lg:col-span-2">
+            <div class="aspect-[16/9] rounded-2xl bg-white/5"></div>
+          </div>
+          <div>
+            <div class="h-10 rounded-xl bg-white/5"></div>
+            <div class="mt-3 h-10 rounded-xl bg-white/5"></div>
+            <div class="mt-5 h-28 rounded-xl bg-white/5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="ground-view" class="hidden">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 id="ground-name" class="text-3xl font-bold tracking-tight"></h1>
+            <p id="ground-location" class="mt-2 text-sm text-white/60"></p>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+            <p class="text-xs text-white/60">Price</p>
+            <p id="ground-price" class="text-lg font-semibold"></p>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-6 lg:grid-cols-3">
+          <div class="lg:col-span-2">
+            <div class="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              <img id="ground-main-image" src="" alt="Ground image" class="h-full w-full object-cover" />
+            </div>
+            <div id="ground-thumbs" class="mt-4 grid grid-cols-3 gap-3"></div>
+
+            <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+              <h2 class="text-lg font-semibold">Amenities</h2>
+              <div id="ground-amenities" class="mt-4 flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+
+          <aside class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-glow">
+            <h2 class="text-lg font-semibold">Select Slot</h2>
+            <p class="mt-2 text-sm text-white/60">Choose a date and available time slot.</p>
+
+            <div class="mt-5 grid gap-4">
+              <div>
+                <label class="text-xs text-white/60" for="booking-date">Date</label>
+                <input
+                  id="booking-date"
+                  type="date"
+                  class="mt-1 w-full rounded-xl border border-white/10 bg-pitch2/60 px-4 py-3 text-sm outline-none focus:border-turf/60"
+                />
+              </div>
+
+              <div>
+                <label class="text-xs text-white/60" for="booking-hours">Duration</label>
+                <select
+                  id="booking-hours"
+                  class="mt-1 w-full rounded-xl border border-white/10 bg-pitch2/60 px-4 py-3 text-sm outline-none focus:border-turf/60"
+                >
+                  <option value="1">1 hour</option>
+                  <option value="2">2 hours</option>
+                  <option value="3">3 hours</option>
+                </select>
+              </div>
+
+              <div>
+                <p class="text-xs text-white/60">Available slots</p>
+                <div id="slots-list" class="mt-2 grid max-h-60 grid-cols-2 gap-2 overflow-auto pr-1"></div>
+                <p id="slots-help" class="mt-2 text-xs text-white/50">
+                  Green = available. Gray = booked.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-white/10 bg-pitch2/60 p-4">
+                <p class="text-xs text-white/60">Selected</p>
+                <p id="selected-slot" class="mt-1 text-sm font-semibold">No slot selected</p>
+              </div>
+
+              <div id="login-prompt" class="hidden rounded-xl border border-sand/30 bg-sand/10 p-4 text-sm text-white/80"></div>
+
+              <button
+                id="continue-btn"
+                class="inline-flex w-full items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2 disabled:cursor-not-allowed disabled:opacity-40"
+                disabled
+              >
+                Continue to Summary
+              </button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/ground-details.page.js"></script>
+  </body>
+</html>

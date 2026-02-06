@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Payment failed. Retry your Razorpay payment to confirm booking." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Payment Failed | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-3xl px-4 py-14">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-glow">
+        <div class="flex items-start gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/15 text-red-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold">Payment Failed</h1>
+            <p class="mt-2 text-sm text-white/60">Your payment did not complete. You can retry now.</p>
+          </div>
+        </div>
+
+        <div id="failed-details" class="mt-6 grid gap-3"></div>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <a
+            id="retry-link"
+            href="/grounds.html"
+            class="inline-flex items-center justify-center rounded-xl bg-sand px-5 py-3 text-sm font-semibold text-black hover:opacity-90"
+          >
+            Retry Payment
+          </a>
+          <a
+            href="/contact.html"
+            class="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
+          >
+            Contact Support
+          </a>
+        </div>
+
+        <p class="mt-6 text-xs text-white/50">
+          If money was deducted, it should be reversed automatically. If not, refunds follow our
+          <a class="text-turf2 hover:text-turf" href="/policies/refund.html">Refund Policy</a>.
+        </p>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/payment-failed.page.js"></script>
+  </body>
+</html>

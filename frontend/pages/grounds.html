@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Browse box cricket grounds with pricing and availability. Select a ground to book a slot and pay securely via Razorpay."
+    />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Grounds | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">Grounds</h1>
+          <p class="mt-2 text-sm text-white/60">Compare price per hour, amenities, and today’s availability.</p>
+        </div>
+
+        <div class="w-full sm:w-80">
+          <label class="text-xs text-white/60" for="ground-search">Search</label>
+          <input
+            id="ground-search"
+            type="search"
+            placeholder="Search by name or location..."
+            class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none focus:border-turf/50"
+          />
+        </div>
+      </div>
+
+      <div id="grounds-error" class="mt-6 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+
+      <div id="grounds-list" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <div class="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <h2 class="text-lg font-semibold">Tip</h2>
+        <p class="mt-2 text-sm text-white/60">
+          Click a ground to view full details, select a date & slot, and proceed to payment on the Booking Summary page.
+        </p>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/grounds.page.js"></script>
+  </body>
+</html>

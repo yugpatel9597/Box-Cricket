@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Admin dashboard to manage grounds, slots, bookings, and payment status." />
+    <meta name="theme-color" content="#0b1f14" />
+
+    <title>Admin Dashboard | BoxCricket</title>
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/js/tailwind-init.js"></script>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-pitch via-pitch2 to-pitch text-white">
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-6xl px-4 py-10">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+          <p class="mt-2 text-sm text-white/60">Manage grounds, slots, bookings, and payment status.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <a href="#grounds" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Grounds</a>
+          <a href="#bookings" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Bookings</a>
+          <a href="#payments" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Payments</a>
+        </div>
+      </div>
+
+      <div id="admin-warning" class="mt-6 hidden rounded-2xl border border-sand/30 bg-sand/10 p-6">
+        <p class="text-sm font-semibold">Admin access required</p>
+        <p class="mt-2 text-sm text-white/70">Please login with an admin account to access this page.</p>
+        <a
+          id="admin-login-link"
+          href="/login.html"
+          class="mt-4 inline-flex items-center justify-center rounded-xl bg-sand px-5 py-3 text-sm font-semibold text-black hover:opacity-90"
+        >
+          Go to Login
+        </a>
+      </div>
+
+      <div id="admin-error" class="mt-6 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm"></div>
+
+      <div id="admin-view" class="mt-8 hidden">
+        <section class="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h2 class="text-lg font-semibold">Overview</h2>
+          <div id="admin-stats" class="mt-5 grid gap-4 sm:grid-cols-3"></div>
+        </section>
+
+        <section id="grounds" class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <h2 class="text-lg font-semibold">Manage Grounds & Slots</h2>
+            <button
+              id="refresh-grounds"
+              class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10"
+            >
+              Refresh
+            </button>
+          </div>
+
+          <div class="mt-6 grid gap-6 lg:grid-cols-2">
+            <div class="rounded-2xl border border-white/10 bg-pitch2/60 p-6">
+              <h3 class="text-sm font-semibold">Add Ground</h3>
+              <form id="ground-form" class="mt-4 grid gap-3">
+                <input id="g-name" placeholder="Name" class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+                <input id="g-location" placeholder="Location" class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+                <input id="g-price" placeholder="Price per hour (₹)" type="number" min="0" class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+
+                <div class="grid grid-cols-3 gap-3">
+                  <input id="g-open" placeholder="Open (HH:mm)" class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+                  <input id="g-close" placeholder="Close (HH:mm or 24:00)" class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+                  <input id="g-slot" placeholder="Slot mins" type="number" min="15" value="60" class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60" required />
+                </div>
+
+                <textarea id="g-images" placeholder="Images (comma-separated URLs)" class="min-h-[88px] w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60"></textarea>
+                <textarea id="g-amenities" placeholder="Amenities (comma-separated)" class="min-h-[88px] w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-turf/60"></textarea>
+
+                <label class="flex items-center gap-2 text-sm text-white/70">
+                  <input id="g-active" type="checkbox" checked class="h-4 w-4 accent-turf" />
+                  Active
+                </label>
+
+                <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-turf px-5 py-3 text-sm font-semibold text-black hover:bg-turf2">
+                  Create Ground
+                </button>
+
+                <div id="ground-form-msg" class="hidden rounded-xl border border-white/10 bg-white/5 p-4 text-sm"></div>
+              </form>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-semibold">Existing Grounds</h3>
+              <div id="grounds-admin-list" class="mt-4 grid gap-4"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="bookings" class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Bookings</h2>
+            <button id="refresh-bookings" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Refresh</button>
+          </div>
+          <div id="admin-bookings" class="mt-5 overflow-auto rounded-xl border border-white/10"></div>
+        </section>
+
+        <section id="payments" class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Payments</h2>
+            <button id="refresh-payments" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Refresh</button>
+          </div>
+          <div id="admin-payments" class="mt-5 overflow-auto rounded-xl border border-white/10"></div>
+        </section>
+      </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/layout.js"></script>
+    <script src="/assets/js/pages/admin.page.js"></script>
+  </body>
+</html>
