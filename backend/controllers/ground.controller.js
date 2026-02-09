@@ -59,7 +59,8 @@ async function getAvailability(req, res) {
 
   const slots = allSlots.map(s => ({
     startTime: addMinutes('00:00', s.start),
-    endTime: addMinutes('00:00', s.end)
+    endTime: addMinutes('00:00', s.end),
+    available: true
   }));
 
   return res.json({ ok: true, date, slots });

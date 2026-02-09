@@ -12,7 +12,7 @@ function requireAuth(req, res, next) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET || 'change-me');
     req.user = {
-      id: payload.userId,
+      id: payload.id,
       role: payload.role,
       email: payload.email
     };

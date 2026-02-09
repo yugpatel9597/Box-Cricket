@@ -1,7 +1,7 @@
 const Ground = require('../models/Ground');
 const Booking = require('../models/Booking');
 const Payment = require('../models/Payment');
-const { memoryStore } = require('../store/memory.store');
+const { memoryStore, newId } = require('../store/memory.store');
 
 function isDbConnected(req) {
   return Boolean(req.app && req.app.locals && req.app.locals.dbConnected);

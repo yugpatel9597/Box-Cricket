@@ -7,7 +7,11 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": ["box-cricket", "booking", "razorpay"],
+  "keywords": [
+    "box-cricket",
+    "booking",
+    "razorpay"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -16,6 +20,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "mongo": "^0.1.0",
     "mongoose": "^8.12.1",
     "razorpay": "^2.9.5"
   },

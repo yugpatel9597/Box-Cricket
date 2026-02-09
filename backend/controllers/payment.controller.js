@@ -1,5 +1,6 @@
 const { memoryStore, newId } = require('../store/memory.store');
 const Payment = require('../models/Payment');
+const Booking = require('../models/Booking');
 const {
   getPublicKeyId,
   createRazorpayOrder,

@@ -229,7 +229,7 @@
           groundId: ground.id,
           date: dateEl.value,
           startTime: selectedStart,
-          hours: hrs
+          endTime: selectedEnd
         })
       });
 
