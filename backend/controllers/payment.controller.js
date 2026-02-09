@@ -1,9 +1,14 @@
 const { memoryStore, newId } = require('../store/memory.store');
+const Payment = require('../models/Payment');
 const {
   getPublicKeyId,
   createRazorpayOrder,
   verifyPaymentSignature
 } = require('../services/razorpay.service');
+
+function isDbConnected(req) {
+  return Boolean(req.app && req.app.locals && req.app.locals.dbConnected);
+}
 
 async function getConfig(req, res) {
   return res.json({ ok: true, keyId: getPublicKeyId() });
@@ -16,7 +21,14 @@ async function createOrder(req, res) {
     return res.status(400).json({ ok: false, message: 'bookingId is required' });
   }
 
-  const booking = memoryStore.bookings.find((b) => b.id === String(bookingId));
+  let booking;
+  if (isDbConnected(req)) {
+    const Booking = require('../models/Booking');
+    booking = await Booking.findById(bookingId);
+  } else {
+    booking = memoryStore.bookings.find(b => b.id === String(bookingId));
+  }
+
   if (!booking) {
     return res.status(404).json({ ok: false, message: 'Booking not found' });
   }
@@ -42,11 +54,15 @@ async function createOrder(req, res) {
     }
   });
 
-  booking.razorpayOrderId = order.id;
-  booking.updatedAt = new Date().toISOString();
+  if (isDbConnected(req)) {
+    await Booking.findByIdAndUpdate(booking.id, { razorpayOrderId: order.id, updatedAt: new Date().toISOString() });
+  } else {
+    booking.razorpayOrderId = order.id;
+    booking.updatedAt = new Date().toISOString();
+  }
 
-  memoryStore.payments.push({
-    id: newId(),
+  const paymentData = {
+    _id: newId(),
     bookingId: booking.id,
     amountPaise: booking.amountPaise,
     currency: booking.currency || 'INR',
@@ -56,7 +72,13 @@ async function createOrder(req, res) {
     razorpaySignature: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
-  });
+  };
+
+  if (isDbConnected(req)) {
+    await Payment.create(paymentData);
+  } else {
+    memoryStore.payments.push(paymentData);
+  }
 
   return res.json({ ok: true, keyId: getPublicKeyId(), order });
 }
@@ -75,8 +97,8 @@ async function verifyPayment(req, res) {
   });
 
   if (!verification.ok) {
-    memoryStore.payments.push({
-      id: newId(),
+    const paymentData = {
+      _id: newId(),
       bookingId: String(bookingId),
       amountPaise: 0,
       currency: 'INR',
@@ -86,12 +108,25 @@ async function verifyPayment(req, res) {
       razorpaySignature: String(razorpay_signature),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    });
+    };
+
+    if (isDbConnected(req)) {
+      await Payment.create(paymentData);
+    } else {
+      memoryStore.payments.push(paymentData);
+    }
 
     return res.status(400).json({ ok: false, message: 'Payment signature verification failed' });
   }
 
-  const booking = memoryStore.bookings.find((b) => b.id === String(bookingId));
+  let booking;
+  if (isDbConnected(req)) {
+    const Booking = require('../models/Booking');
+    booking = await Booking.findById(bookingId);
+  } else {
+    booking = memoryStore.bookings.find(b => b.id === String(bookingId));
+  }
+
   if (!booking) {
     return res.status(404).json({ ok: false, message: 'Booking not found' });
   }
@@ -104,13 +139,22 @@ async function verifyPayment(req, res) {
     return res.status(409).json({ ok: false, message: 'Order ID mismatch' });
   }
 
-  booking.status = 'confirmed';
-  booking.razorpayOrderId = String(razorpay_order_id);
-  booking.razorpayPaymentId = String(razorpay_payment_id);
-  booking.updatedAt = new Date().toISOString();
+  if (isDbConnected(req)) {
+    await Booking.findByIdAndUpdate(booking.id, {
+      status: 'confirmed',
+      razorpayOrderId: String(razorpay_order_id),
+      razorpayPaymentId: String(razorpay_payment_id),
+      updatedAt: new Date().toISOString()
+    });
+  } else {
+    booking.status = 'confirmed';
+    booking.razorpayOrderId = String(razorpay_order_id);
+    booking.razorpayPaymentId = String(razorpay_payment_id);
+    booking.updatedAt = new Date().toISOString();
+  }
 
-  memoryStore.payments.push({
-    id: newId(),
+  const paymentData = {
+    _id: newId(),
     bookingId: booking.id,
     amountPaise: booking.amountPaise,
     currency: booking.currency || 'INR',
@@ -120,7 +164,13 @@ async function verifyPayment(req, res) {
     razorpaySignature: String(razorpay_signature),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
-  });
+  };
+
+  if (isDbConnected(req)) {
+    await Payment.create(paymentData);
+  } else {
+    memoryStore.payments.push(paymentData);
+  }
 
   return res.json({ ok: true, booking });
 }

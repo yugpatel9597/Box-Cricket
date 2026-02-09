@@ -1,11 +1,20 @@
 const { memoryStore, newId } = require('../store/memory.store');
-const { timeToMinutes, addMinutes, intervalsOverlap } = require('../utils/time.utils');
+const Booking = require('../models/Booking');
+const Ground = require('../models/Ground');
+
+function isDbConnected(req) {
+  return Boolean(req.app && req.app.locals && req.app.locals.dbConnected);
+}
 
 async function getGroundById(req, groundId) {
-  return memoryStore.grounds.find((g) => g.id === groundId) || null;
+  if (isDbConnected(req)) {
+    return await Ground.findById(groundId);
+  }
+  return memoryStore.grounds.find(g => g.id === groundId) || null;
 }
 
 async function listConflictingBookings(req, { groundId, date, startTime, endTime }) {
+  const { timeToMinutes, addMinutes, intervalsOverlap } = require('../utils/time.utils');
   const startMin = timeToMinutes(startTime);
   const endMin = timeToMinutes(endTime);
 
@@ -13,134 +22,123 @@ async function listConflictingBookings(req, { groundId, date, startTime, endTime
     return [];
   }
 
-  return memoryStore.bookings.filter((b) => {
-    if (b.groundId !== groundId) return false;
-    if (b.date !== date) return false;
-    if (b.status === 'cancelled') return false;
-    const bStart = timeToMinutes(b.startTime);
-    const bEnd = timeToMinutes(b.endTime);
-    return intervalsOverlap(startMin, endMin, bStart, bEnd);
+  if (isDbConnected(req)) {
+    const docs = await Booking.find({
+      groundId,
+      date,
+      status: { $in: ['confirmed', 'pending_payment'] }
+    });
+    return docs.filter(b => {
+      const bs = timeToMinutes(b.startTime);
+      const be = timeToMinutes(b.endTime);
+      return intervalsOverlap(startMin, endMin, bs, be);
+    });
+  }
+
+  return memoryStore.bookings.filter(b => {
+    if (b.groundId !== groundId || b.date !== date || !['confirmed', 'pending_payment'].includes(b.status)) return false;
+    const bs = timeToMinutes(b.startTime);
+    const be = timeToMinutes(b.endTime);
+    return intervalsOverlap(startMin, endMin, bs, be);
   });
 }
 
 async function createBooking(req, res) {
-  const { groundId, date, startTime, hours } = req.body || {};
-
-  if (!groundId || !date || !startTime) {
-    return res
-      .status(400)
-      .json({ ok: false, message: 'groundId, date (YYYY-MM-DD) and startTime (HH:mm) are required' });
+  const { groundId, date, startTime, endTime } = req.body || {};
+  if (!groundId || !date || !startTime || !endTime) {
+    return res.status(400).json({ ok: false, message: 'groundId, date, startTime, endTime are required' });
   }
 
-  const ground = await getGroundById(req, String(groundId));
-  if (!ground || ground.isActive === false) {
-    return res.status(404).json({ ok: false, message: 'Ground not found' });
-  }
+  const ground = await getGroundById(req, groundId);
+  if (!ground) return res.status(404).json({ ok: false, message: 'Ground not found' });
+  if (!ground.isActive) return res.status(400).json({ ok: false, message: 'Ground is inactive' });
 
-  const hrsRaw = Number(hours || 1);
-  const hrs = Number.isFinite(hrsRaw) ? Math.max(1, Math.round(hrsRaw)) : 1;
-  const endTime = addMinutes(String(startTime), hrs * 60);
-  if (!endTime) {
-    return res.status(400).json({ ok: false, message: 'Invalid startTime' });
-  }
+  const conflicting = await listConflictingBookings(req, { groundId, date, startTime, endTime });
+  if (conflicting.length > 0) return res.status(409).json({ ok: false, message: 'Slot already booked' });
 
-  const open = timeToMinutes(ground.openTime);
-  const close = ground.closeTime === '24:00' ? 24 * 60 : timeToMinutes(ground.closeTime);
-  const startMin = timeToMinutes(String(startTime));
+  const { timeToMinutes, addMinutes } = require('../utils/time.utils');
+  const startMin = timeToMinutes(startTime);
   const endMin = timeToMinutes(endTime);
+  const hours = Math.max(1, Math.min(24, Math.round((endMin - startMin) / 60)));
+  const amountPaise = hours * ground.pricePerHour * 100;
 
-  if (startMin < open || endMin > close) {
-    return res.status(400).json({ ok: false, message: 'Selected time is outside ground working hours' });
-  }
-
-  const conflicts = await listConflictingBookings(req, {
-    groundId: String(groundId),
-    date: String(date),
-    startTime: String(startTime),
-    endTime
-  });
-
-  if (conflicts.length > 0) {
-    return res.status(409).json({ ok: false, message: 'Slot not available' });
-  }
-
-  const amountPaise = Math.round(Number(ground.pricePerHour) * hrs * 100);
-
-  const booking = {
-    id: newId(),
+  const bookingData = {
+    _id: newId(),
     userId: req.user.id,
-    groundId: String(groundId),
-    date: String(date),
-    startTime: String(startTime),
+    groundId,
+    date,
+    startTime,
     endTime,
-    hours: hrs,
     amountPaise,
     currency: 'INR',
     status: 'pending_payment',
-    razorpayOrderId: null,
-    razorpayPaymentId: null,
-    cancelledAt: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 
-  memoryStore.bookings.push(booking);
-
-  return res.json({ ok: true, booking });
-}
-
-async function getBookingById(req, res) {
-  const { id } = req.params;
-
-  const booking = memoryStore.bookings.find((b) => b.id === id);
-  if (!booking) {
-    return res.status(404).json({ ok: false, message: 'Booking not found' });
+  if (isDbConnected(req)) {
+    const booking = await Booking.create(bookingData);
+    return res.status(201).json({ ok: true, booking: { id: booking._id, ...booking.toObject() } });
   }
 
-  const isOwner = booking.userId === req.user.id;
-  const isAdmin = req.user.role === 'admin';
-
-  if (!isOwner && !isAdmin) {
-    return res.status(403).json({ ok: false, message: 'Not allowed' });
-  }
-
-  return res.json({ ok: true, booking });
+  memoryStore.bookings.push(bookingData);
+  return res.status(201).json({ ok: true, booking: bookingData });
 }
 
 async function listMyBookings(req, res) {
-  const bookings = memoryStore.bookings
-    .filter((b) => b.userId === req.user.id)
-    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  if (isDbConnected(req)) {
+    const docs = await Booking.find({ userId: req.user.id }).sort({ createdAt: -1 });
+    return res.json({ ok: true, bookings: docs.map(b => ({ id: b._id, ...b.toObject() })) });
+  }
 
+  const bookings = memoryStore.bookings.filter(b => b.userId === req.user.id).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
   return res.json({ ok: true, bookings });
+}
+
+async function getBooking(req, res) {
+  const { id } = req.params;
+  let booking;
+  if (isDbConnected(req)) {
+    booking = await Booking.findById(id);
+  } else {
+    booking = memoryStore.bookings.find(b => b.id === id);
+  }
+  if (!booking) return res.status(404).json({ ok: false, message: 'Booking not found' });
+  if (booking.userId !== req.user.id && req.user.role !== 'admin') {
+    return res.status(403).json({ ok: false, message: 'Not allowed' });
+  }
+  return res.json({ ok: true, booking: isDbConnected(req) ? { id: booking._id, ...booking.toObject() } : booking });
 }
 
 async function cancelBooking(req, res) {
   const { id } = req.params;
-
-  const booking = memoryStore.bookings.find((b) => b.id === id);
-  if (!booking) {
-    return res.status(404).json({ ok: false, message: 'Booking not found' });
+  let booking;
+  if (isDbConnected(req)) {
+    booking = await Booking.findById(id);
+  } else {
+    booking = memoryStore.bookings.find(b => b.id === id);
   }
-
+  if (!booking) return res.status(404).json({ ok: false, message: 'Booking not found' });
   if (booking.userId !== req.user.id && req.user.role !== 'admin') {
     return res.status(403).json({ ok: false, message: 'Not allowed' });
   }
+  if (!['pending_payment', 'confirmed'].includes(booking.status)) {
+    return res.status(409).json({ ok: false, message: `Cannot cancel booking in status ${booking.status}` });
+  }
 
-  if (booking.status === 'cancelled') {
-    return res.json({ ok: true, booking });
+  if (isDbConnected(req)) {
+    await Booking.findByIdAndUpdate(id, { status: 'cancelled', updatedAt: new Date().toISOString() });
+    return res.json({ ok: true, message: 'Booking cancelled' });
   }
 
   booking.status = 'cancelled';
-  booking.cancelledAt = new Date().toISOString();
   booking.updatedAt = new Date().toISOString();
-
-  return res.json({ ok: true, booking });
+  return res.json({ ok: true, message: 'Booking cancelled' });
 }
 
 module.exports = {
   createBooking,
-  getBookingById,
   listMyBookings,
+  getBooking,
   cancelBooking
 };
