@@ -1,5 +1,5 @@
 (function () {
-  const API_BASE = '/api';
+  const API_BASE = '/https://box-cricket-um3u.onrender.com/';
 
   function getToken() {
     return localStorage.getItem('bc_token');
